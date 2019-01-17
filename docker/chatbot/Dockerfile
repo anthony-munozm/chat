@@ -3,11 +3,11 @@
 FROM python:slim
 
 ARG VERSION=0.15
-ENV VERSION=$VERSION
+ENV VERSION=0.15.7
 
 LABEL maintainer="Gene Sokolov <gene@tinode.co>"
 LABEL name="TinodeChatbot"
-LABEL version=$VERSION
+LABEL version=0.15.7
 
 RUN mkdir -p /usr/src/bot
 WORKDIR /usr/src/bot
@@ -22,7 +22,8 @@ RUN tar -xzf py-chatbot.tar.gz \
 
 # Use command line parameter `-e LOGIN_AS=user:password` to login as someone other than Tino.
 
-CMD python chatbot.py --login-basic=${LOGIN_AS} --login-cookie=/botdata/.tn-cookie --host=tinode-srv:16061 > /var/log/chatbot.log
+CMD python chatbot.py --login-basic=toni5705:toni5705 --login-cookie=/botdata/.tn-cookie --host=pingnget.com > /var/log/chatbot.log
 
 # Plugin port
 EXPOSE 40051
+EXPOSE 5000

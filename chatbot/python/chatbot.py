@@ -22,8 +22,11 @@ import time
 import grpc
 
 # Import generated grpc modules
+
 from tinode_grpc import pb
 from tinode_grpc import pbx
+#import model_pb2 as pb
+#import model_pb2_grpc as pbx
 
 APP_NAME = "Tino-chatbot"
 APP_VERSION = "1.1.1"
@@ -188,7 +191,7 @@ def init_client(addr, schema, secret, cookie_file_name, secure, ssl_host):
 
     # Call the server
     stream = pbx.NodeStub(channel).MessageLoop(client_generate())
-
+    print(" HOLAAA  INIT 1.0")
     # Session initialization sequence: {hi}, {login}, {sub topic='me'}
     client_post(hello())
     client_post(login(cookie_file_name, schema, secret))
@@ -198,15 +201,20 @@ def init_client(addr, schema, secret, cookie_file_name, secure, ssl_host):
 
 def client_message_loop(stream):
     try:
+        print(" HOLAAA  3.0")
+        print(stream.__dict__)
         # Read server responses
         for msg in stream:
-            # print("in:", msg)
+            print(" HOLAAA  3.0")
+            print("in:", msg)
             if msg.HasField("ctrl"):
                 # Run code on command completion
+                print(" HOLAAA  3.0")
                 exec_future(msg.ctrl.id, msg.ctrl.code, msg.ctrl.text, msg.ctrl.params)
 
             elif msg.HasField("data"):
-                # print("message from:", msg.data.from_user_id)
+                print(" HOLAAA  3.0")
+                print("message from:", msg.data.from_user_id)
 
                 # Protection against the bot talking to self from another session.
                 if msg.data.from_user_id != botUID:
@@ -219,7 +227,7 @@ def client_message_loop(stream):
                     client_post(publish(msg.data.topic, next_quote()))
 
             elif msg.HasField("pres"):
-                # print("presence:", msg.pres.topic, msg.pres.what)
+                print("presence:", msg.pres.topic, msg.pres.what)
                 # Wait for peers to appear online and subscribe to their topics
                 if msg.pres.topic == 'me':
                     if (msg.pres.what == pb.ServerPres.ON or msg.pres.what == pb.ServerPres.MSG) \
@@ -233,6 +241,7 @@ def client_message_loop(stream):
                 pass
 
     except grpc._channel._Rendezvous as err:
+        print(" HOLAAA  3")
         print("Disconnected:", err)
 
 def read_auth_cookie(cookie_file_name):
@@ -312,8 +321,13 @@ def run(args):
         # Start Plugin server
         server = init_server(args.listen)
 
+        print(" HOLAAA  ")
+
         # Initialize and launch client
         client = init_client(args.host, schema, secret, args.login_cookie, args.ssl, args.ssl_host)
+
+        print(" HOLAAA  ")
+
 
         # Setup closure for graceful termination
         def exit_gracefully(signo, stack_frame):
