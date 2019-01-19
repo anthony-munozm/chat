@@ -1,0 +1,39 @@
+{
+    "ent": [{
+        "data": {
+            "act": "url",
+            "name": "ok",
+            "ref": "https://github.com/tinode/chat/?key=val"
+        },
+        "tp": "BN"
+    }, {
+        "data": {
+            "act": "url",
+            "name": "ok2",
+            "ref": "https://github.com/tinode/chat"
+        },
+        "tp": "BN"
+    }],
+    "fmt": [{
+        "at": 0,
+        "len": 16,
+        "tp": "FM"
+    }, {
+        "at": 0,
+        "len": 10,
+        "tp": "ST"
+    }, {
+        "at": 10,
+        "len": 6,
+        "tp": "RW"
+    }, {
+        "at": 10,
+        "key": 0,
+        "len": 3
+    }, {
+        "at": 14,
+        "key": 1,
+        "len": 2
+    }],
+    "txt": "Go to URL:Yes OK"
+}
